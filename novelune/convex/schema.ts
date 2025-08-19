@@ -7,7 +7,8 @@ export default defineSchema({
     email: v.string(),
     image: v.optional(v.string()),
     authId: v.string(),
-  }).index("by_auth_id", ["authId"]),
+  }).index("by_auth_id", ["authId"])
+    .index("by_email", ["email"]),
 
   books: defineTable({
     isbn: v.string(),
@@ -28,11 +29,13 @@ export default defineSchema({
         v.literal("want_to_read")),
   }).index("by_user_book", ["userId", "bookId"]),
 
-  message: defineTable({
+  messages: defineTable({
     fromUserId: v.id("users"),
     toUserId: v.id("users"),
     content: v.string(),
     sentAt: v.number(),
-  }).index("by_from_to", ["fromUserId", "toUserId"]),
+  }).index("by_from_to", ["fromUserId", "toUserId"])
+    .index("by_to", ["toUserId"])
+    .index("by_conversation_sentAt", ["fromUserId", "toUserId", "sentAt"]),
 
 })
