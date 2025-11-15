@@ -1,0 +1,10 @@
+docs:
+  - 'docs/**'
+frontend:
+  - 'novelune/src/**'
+backend:
+  - 'novelune/convex/**'
+repo:
+  - '.github/**'
+  - '.gitignore'
+
