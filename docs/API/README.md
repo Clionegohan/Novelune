@@ -1,6 +1,6 @@
 # API ドキュメント（Convex）
 
-本プロジェクトのサーバーサイドAPIは Convex 関数として実装されます。
+本プロジェクトのサーバーサイドAPIは Convex 関数として実装されます（本ドキュメントは `main` に存在する実装を基準に記載）。
 
 ## モジュール一覧
 - `books`（実装済み / 一部モック）
@@ -10,7 +10,7 @@
   - `getBook`（query）
   - `searchBooks`（query, 外部APIは未実装）
 - `users`（未実装）
-- `messages`（未実装）
+- `messages`（未実装／仕様予定）
 
 各APIの仕様はモジュール別ドキュメントを参照してください。
 
@@ -26,4 +26,3 @@
   const shelf = useQuery(api.books.getUserBookshelf, { userId });
   const add = useMutation(api.books.addBookToShelf);
   ```
-

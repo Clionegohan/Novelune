@@ -2,6 +2,8 @@
 
 ソース: `novelune/convex/schema.ts`
 
+注意: 本ドキュメントは「main」に存在するスキーマを基準に記載しています。将来拡張（公開範囲・並び順・メッセージ拡張フィールド）は末尾の「将来拡張」に分離しました。
+
 ## テーブル一覧
 
 - `users`
@@ -9,7 +11,6 @@
   - `email: string`
   - `image?: string`
   - `authId: string`（Clerkユーザーと連携）
-  - `bookshelfVisibility?: "public" | "private" | "limited"`（本棚の公開範囲）
   - インデックス:
     - `by_auth_id(authId)`
     - `by_email(email)`
@@ -29,20 +30,14 @@
 - `bookshelves`
   - `userId: Id<"users">`
   - `bookId: string`（ISBNを直接格納）
-  - `order?: number`（並び順、カスタム順序用）
   - インデックス:
     - `by_user_book(userId, bookId)`
-    - `by_user_order(userId, order)`
 
 - `messages`
   - `fromUserId: Id<"users">`
   - `toUserId: Id<"users">`
   - `content: string`
-  - `type: "dialogue" | "narration"`（セリフ or 地の文）
-  - `referencedBookId?: string`（参照された本のISBN）
   - `sentAt: number`（epoch ms）
-  - `editedAt?: number`（編集日時、epoch ms）
-  - `deletedAt?: number`（削除日時、論理削除用、epoch ms）
   - インデックス:
     - `by_from_to(fromUserId, toUserId)`
     - `by_to(toUserId)`
@@ -56,6 +51,11 @@
 - 本棚の並び順: `bookshelves.order` でカスタム順序を保存。`by_user_order` インデックスで効率的に取得。
 - メッセージタイプ: `messages.type` でセリフ（`dialogue`）と地の文（`narration`）を区別。
 - メッセージの論理削除: `deletedAt` が設定されているメッセージは削除済みとして扱う。
+
+## 将来拡張（計画）
+- 本棚の公開範囲: `users.bookshelfVisibility` で `public`/`private`/`limited` を保持
+- 本棚の並び順: `bookshelves.order` と `by_user_order` インデックス
+- メッセージ拡張: `messages.type`（`dialogue`/`narration`）, `referencedBookId`, `editedAt`, `deletedAt`
 
 ## サンプル
 ```json
@@ -74,4 +74,3 @@
   "bookId": "9784101010014"
 }
 ```
-
